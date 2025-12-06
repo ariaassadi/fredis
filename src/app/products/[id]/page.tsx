@@ -2,6 +2,8 @@ import { getProductById } from "~/lib/queries/products";
 import { ProductDetailPage } from "~/ui/components/pages/products/product-detail-page";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

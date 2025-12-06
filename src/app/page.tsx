@@ -2,6 +2,8 @@ import { getFeaturedProductsHomepage } from "~/data/mocks";
 import { getHeroContent } from "~/lib/queries/site-content";
 import { HomePage } from "~/ui/components/pages/home/home-page";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const [featuredProducts, heroContent] = await Promise.all([
     getFeaturedProductsHomepage(),
