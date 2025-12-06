@@ -27,6 +27,8 @@ export const metadata: Metadata = {
   title: `${SEO_CONFIG.fullName}`,
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
