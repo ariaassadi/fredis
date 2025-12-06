@@ -27,7 +27,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         variant="ghost"
       >
         <Sun className="h-[1.2rem] w-[1.2rem] opacity-70" />
-        <span className="sr-only">Loading theme toggle</span>
+        <span className="sr-only">Laddar temabytare</span>
       </Button>
     );
   }

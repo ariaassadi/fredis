@@ -376,7 +376,7 @@ export function FilterOperator<TData, T extends ColumnDataType>({
       >
         <Command loop>
           <CommandInput placeholder="Search..." />
-          <CommandEmpty>No results.</CommandEmpty>
+          <CommandEmpty>Inga resultat.</CommandEmpty>
           <CommandList className="max-h-fit">
             <FilterOperatorController
               closeControllerAction={close}
@@ -524,7 +524,7 @@ export function FilterSelector<TData>({ table }: { table: Table<TData> }) {
             ref={inputRef}
             value={value}
           />
-          <CommandEmpty>No results.</CommandEmpty>
+          <CommandEmpty>Inga resultat.</CommandEmpty>
           <CommandList className="max-h-fit">
             <CommandGroup>
               {properties.map((column) => (

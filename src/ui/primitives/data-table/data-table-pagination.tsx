@@ -19,7 +19,7 @@ export function DataTablePagination<TData>({ table }: { table: Table<TData> }) {
         `}
       >
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+          <p className="text-sm font-medium">Rader per sida</p>
           <select
             className="h-8 w-[70px] rounded border px-2"
             onChange={(e) => table.setPageSize(Number(e.target.value))}
@@ -37,7 +37,7 @@ export function DataTablePagination<TData>({ table }: { table: Table<TData> }) {
             flex w-[100px] items-center justify-center text-sm font-medium
           `}
         >
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          Sida {table.getState().pagination.pageIndex + 1} av{" "}
           {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">

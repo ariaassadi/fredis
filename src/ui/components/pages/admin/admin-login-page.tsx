@@ -34,10 +34,10 @@ export default function AdminLoginPage() {
         router.push("/admin");
         router.refresh();
       } else {
-        setError(data.error || "Invalid password");
+        setError(data.error || "Ogiltigt lösenord");
       }
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      setError("Ett fel uppstod. Vänligen försök igen.");
     } finally {
       setIsLoading(false);
     }

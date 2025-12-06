@@ -112,7 +112,7 @@ export function ProductsPage({ initialProducts }: ProductsPageProps) {
                   key={slugify(category)}
                   onClick={() => setSelectedCategory(category)}
                   size="sm"
-                  title={`Filter by ${category}`}
+                  title={`Filtrera efter ${category}`}
                   variant={
                     category === selectedCategory ? "default" : "outline"
                   }

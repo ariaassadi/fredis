@@ -123,10 +123,10 @@ export default function AdminProductFormPage({
         router.push("/admin/products");
         router.refresh();
       } else {
-        setError(data.error || "Failed to save product");
+        setError(data.error || "Misslyckades med att spara produkt");
       }
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      setError("Ett fel uppstod. Vänligen försök igen.");
     } finally {
       setIsLoading(false);
     }
