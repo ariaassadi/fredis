@@ -13,20 +13,14 @@ import { Button } from "~/ui/primitives/button";
 import { NotificationsWidget } from "../notifications/notifications-widget";
 import { ThemeToggle } from "../theme-toggle";
 
-interface HeaderProps {
-  children?: React.ReactNode;
-  showAuth?: boolean;
-}
-
-export function Header({ showAuth = true }: HeaderProps) {
+export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   const mainNavigation = [
-    { href: "/", name: "Home" },
-    { href: "/products", name: "Products" },
-    { href: "/demo", name: "Demo" },
-    { href: "/insights", name: "Insights" },
+    { href: "/", name: "Hem" },
+    { href: "/products", name: "Produkter" },
+    { href: "/admin", name: "Admin" },
   ];
 
   const navigation = mainNavigation;
@@ -99,26 +93,6 @@ export function Header({ showAuth = true }: HeaderProps) {
             <Cart />
             <NotificationsWidget />
             <ThemeToggle />
-
-            {showAuth && (
-              <div
-                className={`
-                  hidden
-                  md:block
-                `}
-              >
-                <div className="flex items-center gap-2">
-                  <Link href="/auth/sign-in">
-                    <Button size="sm" variant="ghost">
-                      Log in
-                    </Button>
-                  </Link>
-                  <Link href="/auth/sign-up">
-                    <Button size="sm">Sign up</Button>
-                  </Link>
-                </div>
-              </div>
-            )}
 
             <Button
               className="md:hidden"

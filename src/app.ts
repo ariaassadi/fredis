@@ -1,14 +1,14 @@
 export const SEO_CONFIG = {
-  description: "Juicy Solutions is a company that makes you happy.",
-  fullName: "Juicy Solutions",
-  name: "Juicy",
-  slogan: "Store which makes you happy.",
+  description: "Café Fredis är ett kafé som gör dig glad.",
+  fullName: "Café Fredis",
+  name: "Fredis",
+  slogan: "Kafé som gör dig glad.",
 };
 
 export const SYSTEM_CONFIG = {
   redirectAfterSignIn: "/dashboard/uploads",
   redirectAfterSignUp: "/dashboard/uploads",
-  repoName: "Juicy",
+  repoName: "fredis",
   repoOwner: "Fyris-AI",
   repoStars: false,
 };

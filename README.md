@@ -1,8 +1,6 @@
-# Juicy Solutions
+# Café Fredis
 
-[demo](https://relivator.com) — [sponsor](https://github.com/sponsors/blefnk) — [discord](https://discord.gg/Pb8uKbwpsJ) — [github](https://github.com/blefnk/relivator) — [docs](https://deepwiki.com/blefnk/relivator-nextjs-template)
-
-> **relivator** is a robust ecommerce template built with next.js and other modern technologies. it's designed for developers who want a fast, modern, and scalable foundation without reinventing the backend.
+> **Café Fredis** är ett modernt kafé med fokus på autentiska svenska bakverk och österländska delikatesser. Vi erbjuder allt från klassiska kladdkakor och kanelbullar till irakisk baklava, allt baket dagligen med de finaste ingredienserna.
 
 ## stack
 
@@ -23,30 +21,30 @@
 
 > these features define the main reliverse stack. for an alternative setup—featuring clerk, stripe, trpc, and more—check out [versator](https://github.com/blefnk/versator).
 
-## quick start
+## snabbstart
 
-1. install [git](https://git-scm.com), [node.js](https://nodejs.org), [bun](https://bun.sh).
-2. run:
+1. installera [git](https://git-scm.com), [node.js](https://nodejs.org), [bun](https://bun.sh).
+2. kör:
 
    ```bash
-   git clone https://github.com/blefnk/relivator.git
-   cd relivator
+   git clone https://github.com/ariaassadi/fredis.git
+   cd fredis
    bun install
    copy .env.example .env
    ```
 
-3. fill in the required environment variables in the `.env` file.
-4. optionally, edit the `src/app.ts` file to make the app yours.
-5. run:
+3. fyll i de nödvändiga miljövariablerna i `.env` filen.
+4. valfritt, redigera `src/app.ts` filen för att göra appen din.
+5. kör:
 
    ```bash
-   bun db:push # populate db with schema
-   bun dev # start development server
-   bun run build # build production version
+   bun db:push # populera db med schema
+   bun dev # starta utvecklingsserver
+   bun run build # bygg produktionsversion
    ```
 
-6. edit something in the code manually or ask ai to help you.
-7. done. seriously. you're building now.
+6. redigera något i koden manuellt eller be ai om hjälp.
+7. klart. seriöst. du bygger nu.
 
 <!-- 
 2. run:
@@ -130,20 +128,17 @@ the following api routes are available for payment processing:
 - relivator 1.4.0+ is ai-ready — optimized for ai-powered ides like cursor, making onboarding effortless even for beginners.
 - version 1.3.0 evolved into versator, featuring [clerk](https://clerk.com) authentication and [stripe](https://stripe.com) payments. explore [versator demo](https://versator.relivator.com/en), [repo](https://github.com/blefnk/versator), or [docs](https://docs.reliverse.org/versator).
 
-## stand with ukraine
+## om café fredis
 
-- 💙 help fund drones, medkits, and victory.
-- 💛 every dollar helps stop [russia's war crimes](https://war.ukraine.ua/russia-war-crimes) and saves lives.
-- ‼️ please, [donate now](https://u24.gov.ua), it matters.
+Café Fredis är ett modernt kafé som kombinerar svenska fikatraditioner med österländska smaker. Vi bakar dagligen på plats och erbjuder allt från klassiska svenska bakverk till autentisk irakisk baklava.
 
-## stand with reliverse
+## produkter
 
-- ⭐ [star the repo](https://github.com/blefnk/relivator) to help the reliverse community grow.
-- 😉 follow this project's author, [nazar kornienko](https://github.com/blefnk) and his [reliverse](https://github.com/reliverse) ecosystem, to get updates about new projects faster.
-- 🦄 [become a sponsor](https://github.com/sponsors/blefnk) and power the next wave of tools that _just feel right_.
+- **Kakor**: Kladdkaka, Kärleksmums, Prinsesstårta
+- **Bakverk**: Kanelbullar, Semla
+- **Baklava**: Irakisk Baklava med valnötter och pistage
+- **Drycker**: Kaffe, te, och mer
 
-> every bit of support helps keep the dream alive: dev tools that don't suck.
+## licens
 
-## license
-
-mit © 2025 [nazar kornienko (blefnk)](https://github.com/blefnk), [reliverse](https://github.com/reliverse)
+mit © 2025 Café Fredis

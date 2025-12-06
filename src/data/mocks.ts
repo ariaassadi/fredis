@@ -1,77 +1,52 @@
-export const featuredProductsHomepage = [
-  {
-    category: "Audio",
-    id: "1",
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Wireless Headphones",
-    originalPrice: 2499.99,
-    price: 1999.99,
-    rating: 4.5,
-  },
-  {
-    category: "Wearables",
-    id: "2",
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Smart Watch Series 5",
-    originalPrice: 3499.99,
-    price: 2999.99,
-    rating: 4.2,
-  },
-  {
-    category: "Smartphones",
-    id: "5",
-    image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Smartphone Pro Max",
-    originalPrice: 10999.99,
-    price: 9999.99,
-    rating: 4.8,
-  },
-  {
-    category: "Audio",
-    id: "6",
-    image:
-      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Bluetooth Earbuds Pro",
-    originalPrice: 1799.99,
-    price: 1499.99,
-    rating: 4.4,
-  },
-];
+import { getFeaturedProducts } from "~/lib/queries/products";
 
-// Categories for the shop by category section
+// Fetch featured products from Supabase
+export async function getFeaturedProductsHomepage() {
+  try {
+    const products = await getFeaturedProducts(4);
+    return products.map((product) => ({
+      category: product.category,
+      id: product.id,
+      image: product.image,
+      inStock: product.inStock,
+      name: product.name,
+      originalPrice: typeof product.originalPrice === "string" ? parseFloat(product.originalPrice) : product.originalPrice,
+      price: typeof product.price === "string" ? parseFloat(product.price) : product.price,
+    }));
+  } catch (error) {
+    console.error("Failed to fetch featured products:", error);
+    return [];
+  }
+}
+
+// Categories - can be made dynamic from products later
 export const categories = [
   {
     image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    name: "Audio",
+      "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    name: "Kakor",
     productCount: 12,
   },
   {
     image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    name: "Wearables",
+      "https://images.unsplash.com/photo-1606312619070-d48b4bdc5d3a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    name: "Baklava",
     productCount: 8,
   },
   {
     image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    name: "Smartphones",
+      "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    name: "Bakverk",
     productCount: 15,
   },
   {
     image:
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    name: "Laptops",
+      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    name: "Drycker",
     productCount: 10,
   },
 ];
+
 
 // Testimonials for the testimonials section
 export const testimonials = [
@@ -79,45 +54,45 @@ export const testimonials = [
     author: {
       avatar:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
-      handle: "@sarahtechie",
-      name: "Sarah Johnson",
+      handle: "@sarahe",
+      name: "Sarah Andersson",
     },
-    text: "Honestly, I don't even remember how many times I've ordered from here. Never once had a bad experience. Stuff just works, and when I had a question, support was on it in like, five minutes.",
+    text: "Ärligt talat, jag minns inte ens hur många gånger jag har beställt härifrån. Aldrig haft en dålig upplevelse. Allt bara fungerar, och när jag hade en fråga var supporten där på typ fem minuter.",
   },
   {
     author: {
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      handle: "@mikedev",
-      name: "Michael Chen",
+      handle: "@mikael",
+      name: "Mikael Johansson",
     },
-    text: "Wasn't expecting much tbh, but ended up being super impressed. Got a keyboard that feels chef's kiss and arrived faster than other stores. No complaints.",
+    text: "Förväntade mig inte mycket, men blev superimponerad. Fick en kladdkaka som smakar fantastiskt och kom snabbare än från andra kaféer. Inga klagomål.",
   },
   {
     author: {
       avatar:
         "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
-      handle: "@emdigital",
-      name: "Emily Rodriguez",
+      handle: "@emma",
+      name: "Emma Lindqvist",
     },
-    text: "I was totally lost picking a laptop for freelance work. Dropped them a message and got a thoughtful reply within the hour. They didn't push the priciest option either, which I respect. Love what I got.",
+    text: "Jag var helt vilse när jag skulle välja baklava. Skickade ett meddelande och fick ett omtänksamt svar inom en timme. De pushade inte det dyraste alternativet heller, vilket jag respekterar. Älskar vad jag fick.",
   },
   {
     author: {
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      handle: "@davidtech",
-      name: "David Park",
+      handle: "@david",
+      name: "David Persson",
     },
-    text: "Site's clean, checkout was quick, and my order showed up two days early. Which never happens. Already eyeing my next upgrade 👀",
+    text: "Sidan är ren, kassan var snabb, och min beställning kom två dagar tidigare. Vilket aldrig händer. Tittar redan på min nästa beställning 👀",
   },
   {
     author: {
       avatar:
         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
-      handle: "@sophiareviews",
-      name: "Sophia Martinez",
+      handle: "@sofia",
+      name: "Sofia Nilsson",
     },
-    text: "Finally. A tech store that doesn't make me feel dumb. Everything's explained in plain English, and their chat team didn't treat me like I was annoying them. 10/10.",
+    text: "Äntligen. Ett kafé som inte får mig att känna mig dum. Allt förklaras på enkelt svenska, och deras chatteam behandlade mig inte som om jag störde dem. 10/10.",
   },
 ];

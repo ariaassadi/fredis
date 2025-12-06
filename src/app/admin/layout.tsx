@@ -1,22 +1,19 @@
 import type React from "react";
 
-import { getCurrentUserOrRedirect } from "~/lib/auth";
+import { requireAdminAuth } from "~/lib/admin-auth";
+import AdminNav from "~/ui/components/admin/admin-nav";
 
 export default async function AdminLayout({
   children,
 }: { children: React.ReactNode }) {
-  await getCurrentUserOrRedirect();
-
-  // TODO: implement admin check
-  // const user = await getCurrentUserOrRedirect();
-  // if (!user?.isAdmin) {
-  //   redirect("/");
-  // }
+  await requireAdminAuth();
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="mb-6 text-3xl font-bold">Admin Dashboard</h1>
-      {children}
+    <div className="min-h-screen bg-background">
+      <AdminNav />
+      <main className="container mx-auto px-4 py-8">
+        {children}
+      </main>
     </div>
   );
 }

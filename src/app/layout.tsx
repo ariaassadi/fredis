@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { extractRouterConfig } from "uploadthing/server";
 
 import { SEO_CONFIG } from "~/app";
-import { ourFileRouter } from "~/app/api/uploadthing/core";
 import { CartProvider } from "~/lib/hooks/use-cart";
 import "~/css/globals.css";
+import { getProductCategories } from "~/lib/queries/products";
 import { Footer } from "~/ui/components/footer";
 import { Header } from "~/ui/components/header/header";
 import { ThemeProvider } from "~/ui/components/theme-provider";
@@ -29,11 +27,13 @@ export const metadata: Metadata = {
   title: `${SEO_CONFIG.fullName}`,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const categories = await getProductCategories();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -52,11 +52,10 @@ export default function RootLayout({
           disableTransitionOnChange
           enableSystem
         >
-          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <CartProvider>
-            <Header showAuth={true} />
+            <Header />
             <main className={`flex min-h-screen flex-col`}>{children}</main>
-            <Footer />
+            <Footer categories={categories} />
             <Toaster />
           </CartProvider>
         </ThemeProvider>

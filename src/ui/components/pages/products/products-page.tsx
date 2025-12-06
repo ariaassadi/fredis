@@ -5,23 +5,13 @@ import * as React from "react";
 import { useCart } from "~/lib/hooks/use-cart";
 import { ProductCard } from "~/ui/components/product-card";
 import { Button } from "~/ui/primitives/button";
+import type { Product } from "~/db/schema/products/types";
 
 /* -------------------------------------------------------------------------- */
 /*                                   Types                                    */
 /* -------------------------------------------------------------------------- */
 
 type Category = string;
-
-interface Product {
-  category: string;
-  id: string;
-  image: string;
-  inStock: boolean;
-  name: string;
-  originalPrice?: number;
-  price: number;
-  rating: number;
-}
 
 /* -------------------------------------------------------------------------- */
 /*                            Helpers / utilities                             */
@@ -34,90 +24,22 @@ const slugify = (str: string) =>
     .replace(/[^\w-]+/g, "");
 
 /* -------------------------------------------------------------------------- */
-/*                               Mock data                                    */
-/* -------------------------------------------------------------------------- */
-
-const products: Product[] = [
-  {
-    category: "Audio",
-    id: "1",
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Wireless Headphones",
-    originalPrice: 2499.99,
-    price: 1999.99,
-    rating: 4.5,
-  },
-  {
-    category: "Wearables",
-    id: "2",
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Smart Watch Series 5",
-    originalPrice: 3499.99,
-    price: 2999.99,
-    rating: 4.2,
-  },
-  {
-    category: "Photography",
-    id: "3",
-    image:
-      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: false,
-    name: "Professional Polariod",
-    originalPrice: 1499.99,
-    price: 1299.99,
-    rating: 4.8,
-  },
-  {
-    category: "Furniture",
-    id: "4",
-    image:
-      "https://images.unsplash.com/photo-1506377295352-e3154d43ea9e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Ergonomic Sofa",
-    originalPrice: 5999.99,
-    price: 5499.99,
-    rating: 4.6,
-  },
-  {
-    category: "Electronics",
-    id: "5",
-    image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: "Smartphone Pro Max",
-    originalPrice: 10999.99,
-    price: 9999.99,
-    rating: 4.9,
-  },
-  {
-    category: "Electronics",
-    id: "6",
-    image:
-      "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    inStock: true,
-    name: 'Ultra HD Smart TV 55"',
-    originalPrice: 8999.99,
-    price: 7999.99,
-    rating: 4.7,
-  },
-];
-
-/* -------------------------------------------------------------------------- */
 /*                              Component                                     */
 /* -------------------------------------------------------------------------- */
 
-export function ProductsPage() {
+interface ProductsPageProps {
+  initialProducts: Product[];
+}
+
+export function ProductsPage({ initialProducts }: ProductsPageProps) {
   const { addItem } = useCart();
+  const products = initialProducts;
 
   /* ----------------------- Categories (derived) ------------------------- */
   const categories: Category[] = React.useMemo(() => {
     const dynamic = Array.from(new Set(products.map((p) => p.category))).sort();
-    return ["All", ...dynamic];
-  }, []);
+    return ["Alla", ...dynamic];
+  }, [products]);
 
   /* ----------------------------- State ---------------------------------- */
   const [selectedCategory, setSelectedCategory] =
@@ -126,10 +48,10 @@ export function ProductsPage() {
   /* --------------------- Filtered products (memo) ----------------------- */
   const filteredProducts = React.useMemo(
     () =>
-      selectedCategory === "All"
+      selectedCategory === "Alla"
         ? products
         : products.filter((p) => p.category === selectedCategory),
-    [selectedCategory]
+    [selectedCategory, products]
   );
 
   /* --------------------------- Handlers --------------------------------- */
@@ -143,13 +65,13 @@ export function ProductsPage() {
             id: product.id,
             image: product.image,
             name: product.name,
-            price: product.price,
+            price: typeof product.price === "string" ? parseFloat(product.price) : product.price,
           },
           1 // (quantity) always adds 1 item to the cart
         );
       }
     },
-    [addItem]
+    [addItem, products]
   );
 
   const handleAddToWishlist = React.useCallback((productId: string) => {
@@ -175,9 +97,9 @@ export function ProductsPage() {
             `}
           >
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Products</h1>
+              <h1 className="text-3xl font-bold tracking-tight">Våra Produkter</h1>
               <p className="mt-1 text-lg text-muted-foreground">
-                Browse our latest products and find something you&apos;ll love.
+                Utforska våra senaste bakverk och hitta något du kommer att älska.
               </p>
             </div>
 
@@ -203,45 +125,53 @@ export function ProductsPage() {
 
           {/* Product grid */}
           <div
-            className={`
-              grid grid-cols-1 gap-6
-              sm:grid-cols-2
-              md:grid-cols-3
-              lg:grid-cols-4
-            `}
-          >
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                onAddToCart={handleAddToCart}
-                onAddToWishlist={handleAddToWishlist}
-                product={product}
-              />
-            ))}
+              className={`
+                grid grid-cols-1 gap-6
+                sm:grid-cols-2
+                md:grid-cols-3
+                lg:grid-cols-4
+              `}
+            >
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  onAddToCart={handleAddToCart}
+                  onAddToWishlist={handleAddToWishlist}
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    category: product.category,
+                    image: product.image,
+                    price: typeof product.price === "string" ? parseFloat(product.price) : product.price,
+                    originalPrice: product.originalPrice ? (typeof product.originalPrice === "string" ? parseFloat(product.originalPrice) : product.originalPrice) : undefined,
+                    inStock: product.inStock,
+                  }}
+                />
+              ))}
           </div>
 
           {/* Empty state */}
           {filteredProducts.length === 0 && (
             <div className="mt-8 text-center">
               <p className="text-muted-foreground">
-                No products found in this category.
+                Inga produkter hittades i denna kategori.
               </p>
             </div>
           )}
 
           {/* Pagination */}
           <nav
-            aria-label="Pagination"
+            aria-label="Sidnumrering"
             className="mt-12 flex items-center justify-center gap-2"
           >
             <Button disabled variant="outline">
-              Previous
+              Föregående
             </Button>
             <Button aria-current="page" variant="default">
               1
             </Button>
             <Button disabled variant="outline">
-              Next
+              Nästa
             </Button>
           </nav>
         </div>

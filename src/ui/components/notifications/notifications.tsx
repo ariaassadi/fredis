@@ -18,19 +18,7 @@ interface NotificationsProps {
 }
 
 function formatTimestamp(date: Date) {
-  const now = new Date();
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  if (diffInSeconds < 60) return "Just now";
-  if (diffInSeconds < 3600) {
-    const minutes = Math.floor(diffInSeconds / 60);
-    return minutes === 1 ? "1 minute ago" : `${minutes} minutes ago`;
-  }
-  if (diffInSeconds < 86400) {
-    const hours = Math.floor(diffInSeconds / 3600);
-    return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
-  }
-  const days = Math.floor(diffInSeconds / 86400);
-  return days === 1 ? "1 day ago" : `${days} days ago`;
+  return date.toISOString().split("T")[0];
 }
 
 function getNotificationIcon(type: Notification["type"]) {
@@ -59,9 +47,9 @@ export const Notifications: React.FC<NotificationsProps> = ({
         className={"flex flex-col items-center justify-center py-6 text-center"}
       >
         <Bell className="mb-2 h-10 w-10 text-muted-foreground/50" />
-        <p className="text-sm font-medium">No notifications yet</p>
+        <p className="text-sm font-medium">Inga notifikationer ännu</p>
         <p className="text-xs text-muted-foreground">
-          When you get notifications, they'll show up here
+          När du får notifikationer, kommer de att visas här
         </p>
       </div>
     );

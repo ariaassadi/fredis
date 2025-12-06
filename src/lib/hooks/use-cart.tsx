@@ -40,8 +40,12 @@ const loadCartFromStorage = (): CartItem[] => {
     if (Array.isArray(parsed)) {
       return parsed as CartItem[];
     }
+    // if parsed is not an array, clear the invalid data
+    localStorage.removeItem(STORAGE_KEY);
   } catch (err) {
     console.error("Failed to load cart:", err);
+    // clear corrupted cart data
+    localStorage.removeItem(STORAGE_KEY);
   }
   return [];
 };

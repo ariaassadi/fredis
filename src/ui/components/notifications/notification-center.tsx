@@ -91,15 +91,15 @@ export function NotificationCenter({
 
         <DropdownMenuContent align="end" className="w-80">
           <DropdownMenuLabel className="flex items-center justify-between">
-            <span>Notifications</span>
+            <span>Notifikationer</span>
             {unreadCount > 0 && (
               <Button
-                className="h-auto p-0 text-xs font-normal text-primary"
+                className="h-auto p-1 text-xs font-normal text-primary"
                 onClick={handleMarkAllAsRead}
                 size="sm"
                 variant="ghost"
               >
-                Mark all as read
+                Markera alla som lästa
               </Button>
             )}
           </DropdownMenuLabel>
@@ -122,7 +122,7 @@ export function NotificationCenter({
                   size="sm"
                   variant="outline"
                 >
-                  Clear all notifications
+                  Rensa alla notifikationer
                 </Button>
               </CardFooter>
             </>

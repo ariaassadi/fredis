@@ -29,12 +29,15 @@ import {
   SheetTrigger,
 } from "~/ui/primitives/sheet";
 
+import { CheckoutDialog } from "./checkout-dialog";
+
 interface CartProps {
   className?: string;
 }
 
 export function CartClient({ className }: CartProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = React.useState(false);
   const { clearCart, items: cartItems, removeItem, updateQuantity } = useCart();
   const mounted = useMounted();
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -45,7 +48,7 @@ export function CartClient({ className }: CartProps) {
     return (
       <div className={cn("relative", className)}>
         <Button
-          aria-label="Open cart"
+          aria-label="Öppna varukorg"
           className="relative h-9 w-9 rounded-full"
           size="icon"
           variant="outline"
@@ -87,14 +90,18 @@ export function CartClient({ className }: CartProps) {
       );
       setIsOpen(false); // close the cart
     } else {
-      // TODO: implement actual checkout flow for other pages
-      console.log("checkout clicked - implement actual checkout flow");
+      setIsCheckoutOpen(true);
     }
+  };
+
+  const handleCheckoutSuccess = () => {
+    clearCart();
+    setIsOpen(false);
   };
 
   const CartTrigger = (
     <Button
-      aria-label="Open cart"
+      aria-label="Öppna varukorg"
       className="relative h-9 w-9 rounded-full"
       size="icon"
       variant="outline"
@@ -118,13 +125,13 @@ export function CartClient({ className }: CartProps) {
       <div className="flex flex-col">
         <div className="flex items-center justify-between border-b px-6 py-4">
           <div>
-            <div className="text-xl font-semibold">Your Cart</div>
+            <div className="text-xl font-semibold">Din varukorg</div>
             <div className="text-sm text-muted-foreground">
               {totalItems === 0
-                ? "Your cart is empty"
-                : `You have ${totalItems} item${
-                    totalItems !== 1 ? "s" : ""
-                  } in your cart`}
+                ? "Din varukorg är tom"
+                : `Du har ${totalItems} artikel${
+                    totalItems !== 1 ? "ar" : ""
+                  } i din varukorg`}
             </div>
           </div>
           {isDesktop && (
@@ -153,20 +160,20 @@ export function CartClient({ className }: CartProps) {
                 >
                   <ShoppingCart className="h-10 w-10 text-muted-foreground" />
                 </div>
-                <h3 className="mb-2 text-lg font-medium">Your cart is empty</h3>
+                <h3 className="mb-2 text-lg font-medium">Din varukorg är tom</h3>
                 <p className="mb-6 text-center text-sm text-muted-foreground">
-                  Looks like you haven't added anything to your cart yet.
+                  Det verkar som att du inte har lagt till något i din varukorg ännu.
                 </p>
                 {isDesktop ? (
                   <SheetClose asChild>
                     <Link href="/products">
-                      <Button>Browse Products</Button>
+                      <Button>Bläddra Produkter</Button>
                     </Link>
                   </SheetClose>
                 ) : (
                   <DrawerClose asChild>
                     <Link href="/products">
-                      <Button>Browse Products</Button>
+                      <Button>Bläddra Produkter</Button>
                     </Link>
                   </DrawerClose>
                 )}
@@ -218,7 +225,7 @@ export function CartClient({ className }: CartProps) {
                             type="button"
                           >
                             <X className="h-4 w-4" />
-                            <span className="sr-only">Remove item</span>
+                            <span className="sr-only">Ta bort artikel</span>
                           </button>
                         </div>
                         <p className="text-xs text-muted-foreground">
@@ -241,7 +248,7 @@ export function CartClient({ className }: CartProps) {
                             type="button"
                           >
                             <Minus className="h-3 w-3" />
-                            <span className="sr-only">Decrease quantity</span>
+                            <span className="sr-only">Minska antal</span>
                           </button>
                           <span
                             className={`
@@ -264,7 +271,7 @@ export function CartClient({ className }: CartProps) {
                             type="button"
                           >
                             <Plus className="h-3 w-3" />
-                            <span className="sr-only">Increase quantity</span>
+                            <span className="sr-only">Öka antal</span>
                           </button>
                         </div>
                         <div className="text-sm font-medium">
@@ -283,31 +290,31 @@ export function CartClient({ className }: CartProps) {
           <div className="border-t px-6 py-4">
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">Delsumma</span>
                 <span className="font-medium">{subtotal.toFixed(2)} kr</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Shipping</span>
-                <span className="font-medium">Calculated at checkout</span>
+                <span className="text-muted-foreground">Frakt</span>
+                <span className="font-medium">Beräknas i kassan</span>
               </div>
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="text-base font-semibold">Total</span>
+                <span className="text-base font-semibold">Totalt</span>
                 <span className="text-base font-semibold">
                   {subtotal.toFixed(2)} kr
                 </span>
               </div>
-              <Button className="w-full" size="lg" onClick={handleCheckout}>
-                Checkout
+              <Button className="w-full" onClick={handleCheckout} size="lg">
+                Till kassan
               </Button>
               <div className="flex items-center justify-between">
                 {isDesktop ? (
                   <SheetClose asChild>
-                    <Button variant="outline">Continue Shopping</Button>
+                    <Button variant="outline">Fortsätt handla</Button>
                   </SheetClose>
                 ) : (
                   <DrawerClose asChild>
-                    <Button variant="outline">Continue Shopping</Button>
+                    <Button variant="outline">Fortsätt handla</Button>
                   </DrawerClose>
                 )}
                 <Button
@@ -315,7 +322,7 @@ export function CartClient({ className }: CartProps) {
                   onClick={handleClearCart}
                   variant="outline"
                 >
-                  Clear Cart
+                  Töm varukorg
                 </Button>
               </div>
             </div>
@@ -332,7 +339,7 @@ export function CartClient({ className }: CartProps) {
           <SheetTrigger asChild>{CartTrigger}</SheetTrigger>
           <SheetContent className="flex w-[400px] flex-col p-0">
             <SheetHeader>
-              <SheetTitle>Shopping Cart</SheetTitle>
+              <SheetTitle>Varukorg</SheetTitle>
             </SheetHeader>
             {CartContent}
           </SheetContent>
@@ -343,6 +350,14 @@ export function CartClient({ className }: CartProps) {
           <DrawerContent>{CartContent}</DrawerContent>
         </Drawer>
       )}
+
+      <CheckoutDialog
+        isOpen={isCheckoutOpen}
+        items={cartItems}
+        onClose={() => setIsCheckoutOpen(false)}
+        onSuccess={handleCheckoutSuccess}
+        totalAmount={subtotal}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -23,9 +23,8 @@ type ProductCardProps = Omit<
     image: string;
     inStock?: boolean;
     name: string;
-    originalPrice?: number;
+    originalPrice?: number | null;
     price: number;
-    rating?: number;
   };
   variant?: "compact" | "default";
 };
@@ -68,35 +67,6 @@ export function ProductCard({
         ((product.originalPrice - product.price) / product.originalPrice) * 100
       )
     : 0;
-
-  const renderStars = () => {
-    const rating = product.rating ?? 0;
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-
-    return (
-      <div className="flex items-center">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star
-            className={cn(
-              "h-4 w-4",
-              i < fullStars
-                ? "fill-yellow-400 text-yellow-400"
-                : i === fullStars && hasHalfStar
-                ? "fill-yellow-400/50 text-yellow-400"
-                : "stroke-muted/40 text-muted"
-            )}
-            key={`star-${product.id}-position-${i + 1}`}
-          />
-        ))}
-        {rating > 0 && (
-          <span className="ml-1 text-xs text-muted-foreground">
-            {rating.toFixed(1)}
-          </span>
-        )}
-      </div>
-    );
-  };
 
   return (
     <div className={cn("group", className)} {...props}>
@@ -145,7 +115,7 @@ export function ProductCard({
                   text-destructive-foreground
                 `}
               >
-                {discount}% OFF
+                {discount}% RABATT
               </Badge>
             )}
 
@@ -171,7 +141,7 @@ export function ProductCard({
                     : "text-muted-foreground"
                 )}
               />
-              <span className="sr-only">Add to wishlist</span>
+              <span className="sr-only">Lägg till önskelista</span>
             </Button>
           </div>
 
@@ -187,19 +157,16 @@ export function ProductCard({
             </h3>
 
             {variant === "default" && (
-              <>
-                <div className="mt-1.5">{renderStars()}</div>
-                <div className="mt-2 flex items-center gap-1.5">
-                  <span className="font-medium text-foreground">
-                    {product.price.toFixed(2)} kr
+              <div className="mt-2 flex items-center gap-1.5">
+                <span className="font-medium text-foreground">
+                  {product.price.toFixed(2)} kr
+                </span>
+                {product.originalPrice ? (
+                  <span className="text-sm text-muted-foreground line-through">
+                    {product.originalPrice.toFixed(2)} kr
                   </span>
-                  {product.originalPrice ? (
-                    <span className="text-sm text-muted-foreground line-through">
-                      {product.originalPrice.toFixed(2)} kr
-                    </span>
-                  ) : null}
-                </div>
-              </>
+                ) : null}
+              </div>
             )}
           </CardContent>
 
@@ -223,7 +190,7 @@ export function ProductCard({
                 ) : (
                   <ShoppingCart className="h-4 w-4" />
                 )}
-                Add to Cart
+                Lägg i varukorg
               </Button>
             </CardFooter>
           )}
@@ -258,7 +225,7 @@ export function ProductCard({
                   ) : (
                     <ShoppingCart className="h-4 w-4" />
                   )}
-                  <span className="sr-only">Add to cart</span>
+                  <span className="sr-only">Lägg i varukorg</span>
                 </Button>
               </div>
             </CardFooter>
@@ -272,7 +239,7 @@ export function ProductCard({
               `}
             >
               <Badge className="px-3 py-1 text-sm" variant="destructive">
-                Out of Stock
+                Slut i lager
               </Badge>
             </div>
           )}

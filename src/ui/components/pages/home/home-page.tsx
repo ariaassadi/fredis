@@ -1,15 +1,13 @@
-import { ArrowRight, Clock, ShoppingBag, Star, Truck } from "lucide-react";
+"use client";
+
+import { ArrowRight, Award, BookOpen, Cake, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import * as React from "react";
 
-import {
-  categories,
-  featuredProductsHomepage,
-  testimonials,
-} from "~/data/mocks";
+import { useCart } from "~/lib/hooks/use-cart";
 import { HeroBadge } from "~/ui/components/hero-badge";
 import { ProductCard } from "~/ui/components/product-card";
-import { TestimonialsSection } from "~/ui/components/testimonials/testimonials-with-marquee";
 import { Button } from "~/ui/primitives/button";
 import {
   Card,
@@ -22,31 +20,73 @@ import {
 const featuresWhyChooseUs = [
   {
     description:
-      "Free shipping on all orders over 500 kr. Fast and reliable delivery to your doorstep.",
-    icon: <Truck className="h-6 w-6 text-primary" />,
-    title: "Free Shipping",
+      "Alla våra produkter är 100% halalcertifierade enligt islamiska riktlinjer. Du kan handla med fullt förtroende.",
+    icon: <Award className="h-6 w-6 text-primary" />,
+    title: "100% Halal",
   },
   {
     description:
-      "Your payment information is always safe and secure with us. We use industry-leading encryption.",
-    icon: <ShoppingBag className="h-6 w-6 text-primary" />,
-    title: "Secure Checkout",
+      "Som en del av Svenska Muslimer för Fred och Rättvisa, stöttar du vår organisation genom att stötta vårt café.",
+    icon: <Heart className="h-6 w-6 text-primary" />,
+    title: "Stötta vår organisation",
   },
   {
     description:
-      "Our customer support team is always available to help with any questions or concerns.",
-    icon: <Clock className="h-6 w-6 text-primary" />,
-    title: "24/7 Support",
+      "Vi följer islamiska principer i alla steg av vår produktion, från ingredienser till färdig produkt.",
+    icon: <BookOpen className="h-6 w-6 text-primary" />,
+    title: "Islamiska Principer",
   },
   {
     description:
-      "We stand behind the quality of every product we sell. 30-day money-back guarantee.",
-    icon: <Star className="h-6 w-6 text-primary" />,
-    title: "Quality Guarantee",
+      "Traditionella recept från Mellanöstern möter svensk bakkonst för en unik smakupplevelse.",
+    icon: <Cake className="h-6 w-6 text-primary" />,
+    title: "Traditionella Recept",
   },
 ];
 
-export function HomePage() {
+interface HomePageProps {
+  featuredProducts: {
+    category: string;
+    id: string;
+    image: string;
+    inStock: boolean;
+    name: string;
+    originalPrice: null | number;
+    price: number;
+  }[];
+  heroContent: {
+    heroDescription: string;
+    heroHeading: string;
+    heroSubheading: string;
+  };
+}
+
+export function HomePage({ featuredProducts, heroContent }: HomePageProps) {
+  const { addItem } = useCart();
+
+  const handleAddToCart = React.useCallback(
+    (productId: string) => {
+      const product = featuredProducts.find((p) => p.id === productId);
+      if (product) {
+        addItem(
+          {
+            category: product.category,
+            id: product.id,
+            image: product.image,
+            name: product.name,
+            price: product.price,
+          },
+          1
+        );
+      }
+    },
+    [addItem, featuredProducts]
+  );
+
+  const handleAddToWishlist = React.useCallback((productId: string) => {
+    console.log(`Added ${productId} to wishlist`);
+  }, []);
+
   return (
     <>
       <main
@@ -94,14 +134,14 @@ export function HomePage() {
                       lg:leading-[1.1]
                     `}
                   >
-                    Your One-Stop Shop for{" "}
+                    {heroContent.heroHeading}{" "}
                     <span
                       className={`
                         bg-gradient-to-r from-primary to-primary/70 bg-clip-text
                         text-transparent
                       `}
                     >
-                      Everything Tech
+                      {heroContent.heroSubheading}
                     </span>
                   </h1>
                   <p
@@ -110,8 +150,7 @@ export function HomePage() {
                       md:text-xl
                     `}
                   >
-                    Discover premium products at competitive prices, with fast
-                    shipping and exceptional customer service.
+                    {heroContent.heroDescription}
                   </p>
                 </div>
                 <div
@@ -127,32 +166,9 @@ export function HomePage() {
                       `}
                       size="lg"
                     >
-                      Shop Now <ArrowRight className="h-4 w-4" />
+                      Handla Nu <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
-                  <Link href="/showcase">
-                    <Button
-                      className="h-12 px-8 transition-colors duration-200"
-                      size="lg"
-                      variant="outline"
-                    >
-                      View Showcase
-                    </Button>
-                  </Link>
-                </div>
-                <div
-                  className={`
-                    flex flex-wrap gap-5 text-sm text-muted-foreground
-                  `}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <Truck className="h-5 w-5 text-primary/70" />
-                    <span>Free shipping over 500 kr</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Clock className="h-5 w-5 text-primary/70" />
-                    <span>24/7 Customer Support</span>
-                  </div>
                 </div>
               </div>
               <div
@@ -169,12 +185,12 @@ export function HomePage() {
                   `}
                 />
                 <Image
-                  alt="Shopping experience"
+                  alt="Café experience"
                   className="object-cover"
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  src="https://images.unsplash.com/photo-1624767735494-1929dc24ad43?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
                 />
               </div>
             </div>
@@ -185,85 +201,6 @@ export function HomePage() {
               via-primary/20 to-transparent
             `}
           />
-        </section>
-
-        {/* Featured Categories */}
-        <section
-          className={`
-            py-12
-            md:py-16
-          `}
-        >
-          <div
-            className={`
-              container mx-auto max-w-7xl px-4
-              sm:px-6
-              lg:px-8
-            `}
-          >
-            <div className="mb-8 flex flex-col items-center text-center">
-              <h2
-                className={`
-                  font-display text-3xl leading-tight font-bold tracking-tight
-                  md:text-4xl
-                `}
-              >
-                Shop by Category
-              </h2>
-              <div className="mt-2 h-1 w-12 rounded-full bg-primary" />
-              <p className="mt-4 max-w-2xl text-center text-muted-foreground">
-                Find the perfect device for your needs from our curated
-                collections
-              </p>
-            </div>
-            <div
-              className={`
-                grid grid-cols-2 gap-4
-                md:grid-cols-4 md:gap-6
-              `}
-            >
-              {categories.map((category) => (
-                <Link
-                  aria-label={`Browse ${category.name} products`}
-                  className={`
-                    group relative flex flex-col space-y-4 overflow-hidden
-                    rounded-2xl border bg-card shadow transition-all
-                    duration-300
-                    hover:shadow-lg
-                  `}
-                  href={`/products?category=${category.name.toLowerCase()}`}
-                  key={category.name}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <div
-                      className={`
-                        absolute inset-0 z-10 bg-gradient-to-t
-                        from-background/80 to-transparent
-                      `}
-                    />
-                    <Image
-                      alt={category.name}
-                      className={`
-                        object-cover transition duration-300
-                        group-hover:scale-105
-                      `}
-                      fill
-                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
-                      src={category.image}
-                    />
-                  </div>
-                  <div className="relative z-20 -mt-6 p-4">
-                    <div className="mb-1 text-lg font-medium">
-                      {category.name}
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {category.productCount} products
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
         </section>
 
         {/* Featured Products */}
@@ -287,11 +224,11 @@ export function HomePage() {
                   md:text-4xl
                 `}
               >
-                Featured Products
+                Utvalda Produkter
               </h2>
               <div className="mt-2 h-1 w-12 rounded-full bg-primary" />
               <p className="mt-4 max-w-2xl text-center text-muted-foreground">
-                Check out our latest and most popular tech items
+                Kolla in våra senaste och mest populära bakverk
               </p>
             </div>
             <div
@@ -302,14 +239,19 @@ export function HomePage() {
                 xl:grid-cols-4
               `}
             >
-              {featuredProductsHomepage.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {featuredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  onAddToCart={handleAddToCart}
+                  onAddToWishlist={handleAddToWishlist}
+                  product={product}
+                />
               ))}
             </div>
             <div className="mt-10 flex justify-center">
               <Link href="/products">
                 <Button className="group h-12 px-8" size="lg" variant="outline">
-                  View All Products
+                  Se Alla Produkter
                   <ArrowRight
                     className={`
                       ml-2 h-4 w-4 transition-transform duration-300
@@ -344,7 +286,7 @@ export function HomePage() {
                   md:text-4xl
                 `}
               >
-                Why Choose Us
+                Varför Välja Oss
               </h2>
               <div className="mt-2 h-1 w-12 rounded-full bg-primary" />
               <p
@@ -353,7 +295,8 @@ export function HomePage() {
                   md:text-lg
                 `}
               >
-                We offer the best shopping experience with premium features
+                Vårt bageri följer islamiska principer och erbjuder 100%
+                halalcertifierade produkter
               </p>
             </div>
             <div
@@ -394,29 +337,6 @@ export function HomePage() {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section
-          className={`
-            bg-muted/50 py-12
-            md:py-16
-          `}
-        >
-          <div
-            className={`
-              container mx-auto max-w-7xl px-4
-              sm:px-6
-              lg:px-8
-            `}
-          >
-            <TestimonialsSection
-              className="py-0"
-              description="Don't just take our word for it - hear from our satisfied customers"
-              testimonials={testimonials}
-              title="What Our Customers Say"
-            />
-          </div>
-        </section>
-
         {/* CTA Section */}
         <section
           className={`
@@ -450,7 +370,7 @@ export function HomePage() {
                     md:text-4xl
                   `}
                 >
-                  Ready to Upgrade Your Tech?
+                  Upptäck Våra Halalcertifierade Bakverk
                 </h2>
                 <p
                   className={`
@@ -458,9 +378,9 @@ export function HomePage() {
                     md:text-xl
                   `}
                 >
-                  Join thousands of satisfied customers and experience the best
-                  tech products on the market. Sign up today for exclusive deals
-                  and offers.
+                  Besök oss idag och upplev äkta halal bakverk bakade med kärlek
+                  och omsorg enligt islamiska traditioner. Alla våra produkter
+                  är 100% halal.
                 </p>
                 <div
                   className={`
@@ -468,21 +388,13 @@ export function HomePage() {
                     sm:flex-row
                   `}
                 >
-                  <Link href="/auth/sign-up">
-                    <Button
-                      className="h-12 px-8 transition-colors duration-200"
-                      size="lg"
-                    >
-                      Sign Up Now
-                    </Button>
-                  </Link>
                   <Link href="/products">
                     <Button
                       className="h-12 px-8 transition-colors duration-200"
                       size="lg"
-                      variant="outline"
+                      variant="default"
                     >
-                      Browse Products
+                      Bläddra Produkter
                     </Button>
                   </Link>
                 </div>

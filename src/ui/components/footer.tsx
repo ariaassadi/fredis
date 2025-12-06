@@ -5,7 +5,12 @@ import { SEO_CONFIG } from "~/app";
 import { cn } from "~/lib/cn";
 import { Button } from "~/ui/primitives/button";
 
-export function Footer({ className }: { className?: string }) {
+interface FooterProps {
+  categories?: string[];
+  className?: string;
+}
+
+export function Footer({ categories = [], className }: FooterProps) {
   return (
     <footer className={cn("border-t bg-background", className)}>
       <div
@@ -33,8 +38,8 @@ export function Footer({ className }: { className?: string }) {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Your one-stop shop for everything tech. Premium products at
-              competitive prices.
+              Ditt bageri för halalcertifierade bakverk. Färskt bakat varje dag
+              med kärlek och omsorg.
             </p>
             <div className="flex space-x-4">
               <Button
@@ -80,7 +85,7 @@ export function Footer({ className }: { className?: string }) {
             </div>
           </div>
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Shop</h3>
+            <h3 className="mb-4 text-sm font-semibold">Handla</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -90,57 +95,26 @@ export function Footer({ className }: { className?: string }) {
                   `}
                   href="/products"
                 >
-                  All Products
+                  Alla Produkter
                 </Link>
               </li>
-              <li>
-                <Link
-                  className={`
-                    text-muted-foreground
-                    hover:text-foreground
-                  `}
-                  href="/products?category=audio"
-                >
-                  Audio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`
-                    text-muted-foreground
-                    hover:text-foreground
-                  `}
-                  href="/products?category=wearables"
-                >
-                  Wearables
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`
-                    text-muted-foreground
-                    hover:text-foreground
-                  `}
-                  href="/products?category=smartphones"
-                >
-                  Smartphones
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`
-                    text-muted-foreground
-                    hover:text-foreground
-                  `}
-                  href="/products?category=laptops"
-                >
-                  Laptops
-                </Link>
-              </li>
+              {categories.slice(0, 5).map((category) => (
+                <li key={category}>
+                  <Link
+                    className={`
+                      text-muted-foreground
+                      hover:text-foreground
+                    `}
+                    href={`/products?category=${encodeURIComponent(category)}`}
+                  >
+                    {category}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Company</h3>
+            <h3 className="mb-4 text-sm font-semibold">Organisation</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -148,9 +122,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/about"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  About Us
+                  Om Oss
                 </Link>
               </li>
               <li>
@@ -159,9 +133,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/careers"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Careers
+                  Karriär
                 </Link>
               </li>
               <li>
@@ -170,9 +144,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/blog"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Blog
+                  Blogg
                 </Link>
               </li>
               <li>
@@ -181,7 +155,7 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/press"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
                   Press
                 </Link>
@@ -192,9 +166,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/contact"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Contact
+                  Kontakt
                 </Link>
               </li>
             </ul>
@@ -208,9 +182,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/help"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Help Center
+                  Hjälpcenter
                 </Link>
               </li>
               <li>
@@ -219,9 +193,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/shipping"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Shipping & Returns
+                  Frakt & Returer
                 </Link>
               </li>
               <li>
@@ -230,9 +204,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/warranty"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Warranty
+                  Garanti
                 </Link>
               </li>
               <li>
@@ -241,9 +215,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/privacy"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Privacy Policy
+                  Integritetspolicy
                 </Link>
               </li>
               <li>
@@ -252,9 +226,9 @@ export function Footer({ className }: { className?: string }) {
                     text-muted-foreground
                     hover:text-foreground
                   `}
-                  href="/terms"
+                  href="https://muslimerforfred.org/sv/om-muslimskafreds/"
                 >
-                  Terms of Service
+                  Användarvillkor
                 </Link>
               </li>
             </ul>
@@ -268,25 +242,37 @@ export function Footer({ className }: { className?: string }) {
             `}
           >
             <p className="text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} {SEO_CONFIG.name}. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} Muslimska Fredsrörelsen. Alla
+              rättigheter förbehållna.
             </p>
             <div
               className={
                 "flex items-center gap-4 text-sm text-muted-foreground"
               }
             >
-              <Link className="hover:text-foreground" href="/privacy">
-                Privacy
+              <Link
+                className="hover:text-foreground"
+                href="https://muslimerforfred.org/sv/om-muslimskafreds/"
+              >
+                Integritet
               </Link>
-              <Link className="hover:text-foreground" href="/terms">
-                Terms
+              <Link
+                className="hover:text-foreground"
+                href="https://muslimerforfred.org/sv/om-muslimskafreds/"
+              >
+                Villkor
               </Link>
-              <Link className="hover:text-foreground" href="/cookies">
-                Cookies
+              <Link
+                className="hover:text-foreground"
+                href="https://muslimerforfred.org/sv/om-muslimskafreds/"
+              >
+                Kakor
               </Link>
-              <Link className="hover:text-foreground" href="/sitemap">
-                Sitemap
+              <Link
+                className="hover:text-foreground"
+                href="https://muslimerforfred.org/sv/om-muslimskafreds/"
+              >
+                Webbplatskarta
               </Link>
             </div>
           </div>
