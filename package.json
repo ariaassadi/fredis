@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "vercel-build": "pnpm seed:content && pnpm build",
     "dev": "next dev --turbopack",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
@@ -16,7 +17,8 @@
     "tests": "bun test ./.tests",
     "migrate:images": "tsx scripts/migrate-product-images.ts",
     "migrate:products": "tsx scripts/migrate-products.ts",
-    "migrate:all": "tsx scripts/migrate-all.ts"
+    "migrate:all": "tsx scripts/migrate-all.ts",
+    "seed:content": "tsx scripts/seed-site-content.ts"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
