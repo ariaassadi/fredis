@@ -34,7 +34,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const categories = await getProductCategories();
+  let categories: string[] = [];
+  try {
+    categories = await getProductCategories();
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
