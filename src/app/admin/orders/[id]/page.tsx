@@ -9,7 +9,7 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
+
   try {
     const order = await getOrderWithItems(id);
 
@@ -23,4 +23,3 @@ export default async function Page({
     notFound();
   }
 }
-

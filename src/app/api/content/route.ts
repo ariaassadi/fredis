@@ -10,15 +10,20 @@ export async function GET() {
     ]);
 
     return NextResponse.json({
-      notifications,
+      notifications: notifications ?? [],
       hero: heroContent,
     });
   } catch (error) {
     console.error("Error fetching content:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch content" },
-      { status: 500 }
-    );
+    // return default values instead of error to prevent client-side crashes
+    return NextResponse.json({
+      notifications: [],
+      hero: {
+        heroHeading: "Välkommen till",
+        heroSubheading: "Vårt Bageri",
+        heroDescription: "Upptäck våra halalcertifierade bakverk, bakade med kärlek och omsorg varje dag.",
+      },
+    });
   }
 }
 

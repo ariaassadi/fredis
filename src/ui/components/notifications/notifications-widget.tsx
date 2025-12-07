@@ -15,7 +15,7 @@ export function NotificationsWidget() {
       .then(
         (res) =>
           res.json() as Promise<{
-            notifications: {
+            notifications?: {
               createdAt: string;
               id: string;
               isActive: boolean;
@@ -26,6 +26,12 @@ export function NotificationsWidget() {
           }>
       )
       .then((data) => {
+        // handle missing notifications gracefully
+        if (!data.notifications || !Array.isArray(data.notifications)) {
+          setNotifications([]);
+          return;
+        }
+
         // convert API format to Notification format and sort by date descending
         const formattedNotifications: Notification[] = data.notifications
           .map((n) => ({
@@ -41,6 +47,7 @@ export function NotificationsWidget() {
       })
       .catch((err) => {
         console.error("Failed to fetch notifications:", err);
+        setNotifications([]);
       });
   }, []);
 
