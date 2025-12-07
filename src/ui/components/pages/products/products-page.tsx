@@ -43,7 +43,7 @@ export function ProductsPage({ initialProducts }: ProductsPageProps) {
 
   /* ----------------------------- State ---------------------------------- */
   const [selectedCategory, setSelectedCategory] =
-    React.useState<Category>("All");
+    React.useState<Category>("Alla");
 
   /* --------------------- Filtered products (memo) ----------------------- */
   const filteredProducts = React.useMemo(
