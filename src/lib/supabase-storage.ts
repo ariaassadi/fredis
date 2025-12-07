@@ -6,6 +6,10 @@ const BUCKET_NAME = "products";
  * Ensures the products bucket exists and is publicly accessible
  */
 export async function ensureProductsBucket() {
+  if (!supabase) {
+    throw new Error("Supabase client is not available");
+  }
+
   // Check if bucket exists
   const { data: buckets, error: listError } = await supabase.storage.listBuckets();
   
@@ -41,6 +45,10 @@ export async function uploadProductImage(
   file: Buffer | Blob,
   fileName: string
 ): Promise<string> {
+  if (!supabase) {
+    throw new Error("Supabase client is not available");
+  }
+
   await ensureProductsBucket();
 
   const { data, error } = await supabase.storage
@@ -68,6 +76,10 @@ export async function uploadProductImage(
  * @returns Public URL
  */
 export function getProductImageUrl(fileName: string): string {
+  if (!supabase) {
+    return "";
+  }
+
   const {
     data: { publicUrl },
   } = supabase.storage.from(BUCKET_NAME).getPublicUrl(fileName);
@@ -80,6 +92,10 @@ export function getProductImageUrl(fileName: string): string {
  * @param fileName - Name of the file to delete
  */
 export async function deleteProductImage(fileName: string): Promise<void> {
+  if (!supabase) {
+    throw new Error("Supabase client is not available");
+  }
+
   const { error } = await supabase.storage.from(BUCKET_NAME).remove([fileName]);
 
   if (error) {
