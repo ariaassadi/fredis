@@ -14,8 +14,17 @@ export function InitializeContentButton() {
         method: "POST",
       });
 
+      const data = await response.json() as { 
+        error?: string; 
+        details?: string; 
+        message?: string;
+        data?: unknown;
+      };
+
       if (!response.ok) {
-        throw new Error("failed to initialize content");
+        const errorMsg = data.details || data.error || "okänt fel";
+        console.error("initialization error:", data);
+        throw new Error(errorMsg);
       }
 
       toast.success("Innehål initierat! Laddar om sidan...");
@@ -24,8 +33,9 @@ export function InitializeContentButton() {
         window.location.reload();
       }, 1000);
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "okänt fel";
       console.error("error initializing content:", error);
-      toast.error("Misslyckades att initiera innehål");
+      toast.error(`Misslyckades att initiera innehål: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }
