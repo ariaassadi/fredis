@@ -9,12 +9,18 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = await getProductById(id);
+  
+  try {
+    const product = await getProductById(id);
 
-  if (!product) {
+    if (!product) {
+      notFound();
+    }
+
+    return <AdminProductFormPage product={product} />;
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
     notFound();
   }
-
-  return <AdminProductFormPage product={product} />;
 }
 

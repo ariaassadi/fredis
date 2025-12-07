@@ -9,12 +9,18 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const order = await getOrderWithItems(id);
+  
+  try {
+    const order = await getOrderWithItems(id);
 
-  if (!order) {
+    if (!order) {
+      notFound();
+    }
+
+    return <AdminOrderDetailPage order={order} />;
+  } catch (error) {
+    console.error("Failed to fetch order:", error);
     notFound();
   }
-
-  return <AdminOrderDetailPage order={order} />;
 }
 

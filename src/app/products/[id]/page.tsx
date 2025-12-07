@@ -10,11 +10,17 @@ interface PageProps {
 
 export default async function Page({ params }: PageProps) {
   const { id } = await params;
-  const product = await getProductById(id);
   
-  if (!product) {
+  try {
+    const product = await getProductById(id);
+    
+    if (!product) {
+      notFound();
+    }
+    
+    return <ProductDetailPage product={product} />;
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
     notFound();
   }
-  
-  return <ProductDetailPage product={product} />;
 }
