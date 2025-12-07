@@ -1,6 +1,7 @@
 import { requireAdminAuth } from "~/lib/admin-auth";
 import { getSiteContent } from "~/lib/queries/site-content";
 import AdminContentPage from "~/ui/components/pages/admin/admin-content-page";
+import { InitializeContentButton } from "~/ui/components/pages/admin/initialize-content-button";
 
 export default async function ContentPage() {
   try {
@@ -31,9 +32,10 @@ export default async function ContentPage() {
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Innehåll hittades inte</h2>
-          <p className="text-muted-foreground">
-            Sidinnehåll har inte initierats. Kör seed-skriptet.
+          <p className="text-muted-foreground mb-4">
+            Sidinnehåll har inte initierats. Klicka på knappen nedan för att initiera standardinnehål.
           </p>
+          <InitializeContentButton />
         </div>
       </div>
     );
