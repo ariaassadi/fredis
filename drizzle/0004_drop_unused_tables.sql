@@ -9,6 +9,6 @@ DROP TABLE IF EXISTS "two_factor" CASCADE;
 DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS "verification" CASCADE;
 
--- drop unused enum type
-DROP TYPE IF EXISTS "public"."type" CASCADE;
+-- drop unused enum type (must be after dropping tables that reference it)
+DROP TYPE IF EXISTS "public"."type";
 
